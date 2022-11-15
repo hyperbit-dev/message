@@ -7,7 +7,7 @@ JavaScript functions for signing and verifying messages.
 ## Installation
 
 ```bash
-npm install @hypereon/message;
+npm install @hypereon/message
 ```
 
 ## Usage
@@ -33,10 +33,10 @@ const address = '<public_address_of_private_key_wif>';
 const message = 'This is an example of a signed message.';
 const signature = '<generated_signature_from_sign>';
 
-const isVerified = verify({ address, message, signature });
+const isValid = verify({ address, message, signature });
 ```
 
-Message signing defaults to Bitcoin '\u0018Bitcoin Signed Message:\n'. See `@hypereon/message` for message prefixes to sign for a different blockchain.
+Message signing defaults to Bitcoin '\u0018Bitcoin Signed Message:\n'. See [@hypereon/chains](https://github.com/HypereonLabs/chains) for message prefix options provided by different blockchains.
 
 ```javascript
 import { sign, verify } from '@hypereon/message';
