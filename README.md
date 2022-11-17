@@ -40,9 +40,9 @@ Message signing defaults to Bitcoin '\u0018Bitcoin Signed Message:\n'. See [@hyp
 
 ```javascript
 import { sign, verify } from '@hypereon/message';
-import chains from '@hypereon/chains';
+import { ltc } from '@hypereon/chains';
 
-const { messagePrefix } = chains.ltc.main;
+const { messagePrefix } = ltc.main;
 
 const signature = sign({
   privateKey: '...',
