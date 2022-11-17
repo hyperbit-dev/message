@@ -34,7 +34,7 @@
   "name": "@hypereon/message",
   "repository": {
     "type": "git",
-    "url": "https://github.com/HypereonLabs/message.git"
+    "url": "https://github.com/hypereon-dev/message.git"
   },
   "author": "Hypereon",
   "module": "dist/message.esm.js",
