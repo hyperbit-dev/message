@@ -1,4 +1,4 @@
-![Hypereon Message Banner](https://github.com/HypereonLabs/message/raw/master/media/repo-banner.png)
+![Hypereon Message Banner](https://github.com/hypereon-dev/message/raw/master/media/repo-banner.png)
 
 # Hypereon - Message
 
@@ -36,13 +36,13 @@ const signature = '<generated_signature_from_sign>';
 const isValid = verify({ address, message, signature });
 ```
 
-Message signing defaults to Bitcoin '\u0018Bitcoin Signed Message:\n'. See [@hypereon/chains](https://github.com/HypereonLabs/chains) for message prefix options provided by different blockchains.
+Message signing defaults to Bitcoin '\u0018Bitcoin Signed Message:\n'. See [@hypereon/chains](https://github.com/hypereon-dev/chains) for message prefix options provided by different blockchains.
 
 ```javascript
 import { sign, verify } from '@hypereon/message';
-import message from '@hypereon/message';
+import chains from '@hypereon/chains';
 
-const { messagePrefix } = message.ltc.main;
+const { messagePrefix } = chains.ltc.main;
 
 const signature = sign({
   privateKey: '...',
@@ -60,7 +60,7 @@ const isVerified = verify({
 
 ## Contributing
 
-If you're interested in contributing, please read the [contributing docs](https://github.com/HypereonLabs/message/blob/master/CONTRIBUTING.md) before submitting a pull request.
+If you're interested in contributing, please read the [contributing docs](https://github.com/hypereon-dev/message/blob/master/CONTRIBUTING.md) before submitting a pull request.
 
 ## Authors
 
