@@ -1,5 +1,5 @@
 {
-  "version": "0.0.1",
+  "version": "0.1.0",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -31,12 +31,12 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "@hypereon/message",
+  "name": "@hyperbitjs/message",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hypereon-dev/message.git"
+    "url": "https://github.com/hyperbit-dev/message.git"
   },
-  "author": "Hypereon",
+  "author": "Hyperbit",
   "module": "dist/message.esm.js",
   "size-limit": [
     {

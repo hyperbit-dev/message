@@ -3,6 +3,12 @@ import CoinKey from 'coinkey';
 import { Sign, Verify } from './types';
 
 /**
+ * TODO:
+ * Fix version usage. See chains versions.public/private and https://github.com/cryptocoinjs/coinkey/blob/master/lib/coinkey.js#L9
+ * Update to pull in network of blockchain
+ */
+
+/**
  * Sign for proof of ownership of wallet address.
  * @param param
  * @param {string} param.message Hash used for signing your message.
