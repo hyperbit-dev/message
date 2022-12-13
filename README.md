@@ -1,13 +1,13 @@
-![Hypereon Message Banner](https://github.com/hypereon-dev/message/raw/master/media/repo-banner.png)
+![Hyperbit Message Banner](https://github.com/hyperbit-dev/message/raw/master/media/repo-banner.png)
 
-# Hypereon - Message
+# Hyperbit - Message
 
 JavaScript functions for signing and verifying messages.
 
 ## Installation
 
 ```bash
-npm install @hypereon/message
+npm install @hyperbitjs/message
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ npm install @hypereon/message
 ### Sign a message
 
 ```javascript
-import { sign } from '@hypereon/message';
+import { sign } from '@hyperbitjs/message';
 
 const privateKey = 'L4rK1yDtCWekvXuE6oXD9jCYfFNV2cWRpVuPLBcCU2z8TrisoyY1';
 const message = 'This is an example of a signed message.';
@@ -27,7 +27,7 @@ const signature = sign({ message, privateKey });
 ### Verify a message
 
 ```javascript
-import { verify } from '@hypereon/message';
+import { verify } from '@hyperbitjs/message';
 
 const address = '<public_address_of_private_key_wif>';
 const message = 'This is an example of a signed message.';
@@ -36,11 +36,11 @@ const signature = '<generated_signature_from_sign>';
 const isValid = verify({ address, message, signature });
 ```
 
-Message signing defaults to Bitcoin '\u0018Bitcoin Signed Message:\n'. See [@hypereon/chains](https://github.com/hypereon-dev/chains) for message prefix options provided by different blockchains.
+Message signing defaults to Bitcoin '\u0018Bitcoin Signed Message:\n'. See [@hyperbitjs/chains](https://github.com/hyperbit-dev/chains) for message prefix options provided by different blockchains.
 
 ```javascript
-import { sign, verify } from '@hypereon/message';
-import { ltc } from '@hypereon/chains';
+import { sign, verify } from '@hyperbitjs/message';
+import { btc } from '@hyperbitjs/chains';
 
 const { messagePrefix } = ltc.main;
 
@@ -60,7 +60,7 @@ const isVerified = verify({
 
 ## Contributing
 
-If you're interested in contributing, please read the [contributing docs](https://github.com/hypereon-dev/message/blob/master/CONTRIBUTING.md) before submitting a pull request.
+If you're interested in contributing, please read the [contributing docs](https://github.com/hyperbit-dev/message/blob/master/CONTRIBUTING.md) before submitting a pull request.
 
 ## Authors
 
