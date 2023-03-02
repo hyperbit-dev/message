@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -57,6 +57,7 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
+    "@hyperbitjs/chains": "^0.3.1",
     "bitcoinjs-message": "^2.2.0",
     "coinkey": "^3.0.0"
   },
