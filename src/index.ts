@@ -1,12 +1,7 @@
+import { btc } from '@hyperbitjs/chains';
 import bitcoinMessage from 'bitcoinjs-message';
 import CoinKey from 'coinkey';
 import { Sign, Verify } from './types';
-
-/**
- * TODO:
- * Fix version usage. See chains versions.public/private and https://github.com/cryptocoinjs/coinkey/blob/master/lib/coinkey.js#L9
- * Update to pull in network of blockchain
- */
 
 /**
  * Sign for proof of ownership of wallet address.
@@ -15,7 +10,9 @@ import { Sign, Verify } from './types';
  * @param {string|Buffer} param.privateKey Wallet Import Format (WIF) string or private key Buffer.
  * @param {boolean=} param.compressed
  * @param {string=} [param.messagePrefix=\u0018Bitcoin Signed Message:\n] Message prefix used by the blockchain for signing.
- * @param {any=} sigOptions Pass in any option after the initial object to make use of additional https://github.com/bitcoinjs/bitcoinjs-message parameters.
+ * @param {object=} param.versions Versions object derived from Network object from @hyperbitjs/chains. Only private and public strings required
+ * @param {object=} param.network Network object from @hyperbitjs/chains
+ * @param {any=} params Pass in any signature option after the initial object to make use of additional https://github.com/bitcoinjs/bitcoinjs-message parameters.
  * @returns A base64 encoded string representation of the signature.
  */
 export function sign(
@@ -23,25 +20,37 @@ export function sign(
     message,
     privateKey,
     compressed = true,
-    messagePrefix = '\u0018Bitcoin Signed Message:\n',
+    messagePrefix,
+    versions,
+    network = btc.main,
   }: Sign,
-  ...sigOptions: any
+  ...params: any
 ): string | null {
+  const _messagePrefix =
+    messagePrefix || network?.messagePrefix || btc.main.messagePrefix;
+  const _versions = versions || network?.versions || btc.main.versions;
+
   try {
-    const privateKeyWif =
-      typeof privateKey === 'string'
-        ? CoinKey.fromWif(privateKey).privateKey
-        : privateKey;
+    let _compressed = compressed;
+    let _privateKeyWif = privateKey;
+
+    if (typeof privateKey === 'string') {
+      _privateKeyWif = CoinKey.fromWif(privateKey, _versions).privateKey;
+      _compressed =
+        CoinKey.fromWif(privateKey, _versions).compressed === true
+          ? true
+          : _compressed;
+    }
+
     const signature = bitcoinMessage.sign(
       message,
-      privateKeyWif,
-      compressed,
-      messagePrefix,
-      ...sigOptions
+      _privateKeyWif,
+      _compressed,
+      _messagePrefix,
+      ...params
     );
     return signature.toString('base64');
   } catch (e) {
-    console.log('e', e);
     return null;
   }
 }
@@ -53,17 +62,22 @@ export function sign(
  * @param {string} param.address Address submitted for proof of ownership.
  * @param {string} param.signature Signature generated from address and message.
  * @param {string} [param.messagePrefix=\u0018Bitcoin Signed Message:\n] Message prefix used by the blockchain for verifying.
+ * @param {object=} param.network Network object from @hyperbitjs/chains
  * @returns
  */
 export function verify({
   message,
   address,
   signature,
-  messagePrefix = '\u0018Bitcoin Signed Message:\n',
+  messagePrefix,
+  network,
 }: Verify): boolean {
+  const _messagePrefix =
+    messagePrefix || network?.messagePrefix || btc.main.messagePrefix;
+
   try {
     const m = Buffer.from(message).toString('ascii');
-    const result = bitcoinMessage.verify(m, address, signature, messagePrefix);
+    const result = bitcoinMessage.verify(m, address, signature, _messagePrefix);
     return result;
   } catch {
     return false;

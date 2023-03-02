@@ -17,6 +17,7 @@ npm install @hyperbitjs/message
 ```javascript
 import { sign } from '@hyperbitjs/message';
 
+// Wallet Import Format (WIF) format
 const privateKey = 'L4rK1yDtCWekvXuE6oXD9jCYfFNV2cWRpVuPLBcCU2z8TrisoyY1';
 const message = 'This is an example of a signed message.';
 
@@ -36,26 +37,34 @@ const signature = '<generated_signature_from_sign>';
 const isValid = verify({ address, message, signature });
 ```
 
-Message signing defaults to Bitcoin '\u0018Bitcoin Signed Message:\n'. See [@hyperbitjs/chains](https://github.com/hyperbit-dev/chains) for message prefix options provided by different blockchains.
-
+### Full Example
 ```javascript
+import { Mnemonic } from '@hyperbitjs/mnemonic';
 import { sign, verify } from '@hyperbitjs/message';
-import { btc } from '@hyperbitjs/chains';
+import { ltc } from '@hyperbitjs/chains';
 
-const { messagePrefix } = ltc.main;
+const mnemonic = new Mnemonic({ network: ltc.main });
+const addresses = mnemonic.generateAddresses();
+
+const { wif, address } = addresses[0].external;
+const network = ltc.main;
+const message = 'This is an example of a signed message.';
 
 const signature = sign({
-  privateKey: '...',
-  message: '...',
-  messagePrefix,
+  privateKey: wif,
+  message,
+  network,
 });
 
-const isVerified = verify({
-  address: '...',
-  message: '...',
-  signature: '...',
-  messagePrefix,
+const isValid = verify({
+  message,
+  address,
+  signature,
+  network,
 });
+
+console.log('isValid', isValid);
+// Expected Output: true
 ```
 
 ## Contributing
