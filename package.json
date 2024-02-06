@@ -1,67 +1,72 @@
 {
-  "version": "1.0.0",
-  "license": "MIT",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src"
-  ],
-  "engines": {
-    "node": ">=14"
-  },
-  "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test",
-    "lint": "tsdx lint",
-    "prepare": "tsdx build",
-    "size": "size-limit",
-    "analyze": "size-limit --why"
-  },
-  "peerDependencies": {},
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
-  },
-  "prettier": {
-    "printWidth": 80,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
   "name": "@hyperbitjs/message",
+  "version": "1.0.0",
+  "type": "module",
+  "author": "Hyperbit <support@hyperbit.app>",
+  "license": "MIT",
+  "homepage": "https://github.com/hyperbit-dev/message#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hyperbit-dev/message.git"
+    "url": "git+https://github.com/hyperbit-dev/message.git"
   },
-  "author": "Hyperbit",
-  "module": "dist/message.esm.js",
-  "size-limit": [
-    {
-      "path": "dist/message.cjs.production.min.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "dist/message.esm.js",
-      "limit": "10 KB"
+  "bugs": "https://github.com/hyperbit-dev/message/issues",
+  "keywords": [],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     }
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./dist/index.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
   ],
+  "scripts": {
+    "build": "unbuild",
+    "dev": "unbuild --stub",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix",
+    "prepublishOnly": "npm run build",
+    "release": "bumpp && npm publish",
+    "start": "esno src/index.ts",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^8.1.0",
-    "husky": "^8.0.2",
-    "size-limit": "^8.1.0",
-    "tsdx": "^0.14.1",
-    "tslib": "^2.4.1",
-    "typescript": "^4.8.4"
+    "@types/node": "^20.11.16",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "bumpp": "^9.2.1",
+    "eslint": "^8.56.0",
+    "esno": "^4.0.0",
+    "pnpm": "^8.15.1",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.3",
+    "unbuild": "^2.0.0",
+    "vite": "^5.0.11",
+    "vitest": "^1.1.3"
   },
   "dependencies": {
-    "@hyperbitjs/chains": "^0.3.1",
+    "@hyperbitjs/chains": "^1.3.3",
     "bitcoinjs-message": "^2.2.0",
-    "coinkey": "^3.0.0"
+    "coinkey": "^3.0.0",
+    "ecpair": "^2.1.0",
+    "tiny-secp256k1": "^2.2.3"
   },
-  "publishConfig": {
-    "access": "public"
+  "overrides": {
+    "deep-extend": "^0.5.1",
+    "minimist": "^1.2.3"
   }
 }

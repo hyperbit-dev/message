@@ -1,4 +1,11 @@
-*.log
+.cache
 .DS_Store
-node_modules
+.idea
+*.log
+*.tgz
+coverage
 dist
+lib-cov
+logs
+node_modules
+temp

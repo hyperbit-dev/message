@@ -1,13 +1,16 @@
-import { btc } from '@hyperbitjs/chains';
-import bitcoinMessage from 'bitcoinjs-message';
-import CoinKey from 'coinkey';
-import { Sign, Verify } from './types';
+import { btc, toBitcoinJS } from "@hyperbitjs/chains";
+import bitcoinMessage from "bitcoinjs-message";
+import CoinKey from "coinkey";
+import ECPairFactory from "ecpair";
+import * as ecc from "tiny-secp256k1";
+import { Sign, Verify } from "./types";
 
 /**
  * Sign for proof of ownership of wallet address.
  * @param param
  * @param {string} param.message Hash used for signing your message.
- * @param {string|Buffer} param.privateKey Wallet Import Format (WIF) string or private key Buffer.
+ * @param {string|Buffer} param.privateKeyWIF Wallet Import Format (WIF) string or private key Buffer.
+ * @param {string|Buffer} param.privateKey Private key string or private key Buffer.
  * @param {boolean=} param.compressed
  * @param {string=} [param.messagePrefix=\u0018Bitcoin Signed Message:\n] Message prefix used by the blockchain for signing.
  * @param {object=} param.versions Versions object derived from Network object from @hyperbitjs/chains. Only private and public strings required
@@ -18,38 +21,57 @@ import { Sign, Verify } from './types';
 export function sign(
   {
     message,
+    privateKeyWIF,
     privateKey,
     compressed = true,
     messagePrefix,
     versions,
-    network = btc.main,
+    network = btc.mainnet,
   }: Sign,
-  ...params: any
+  ...params: unknown[]
 ): string | null {
   const _messagePrefix =
-    messagePrefix || network?.messagePrefix || btc.main.messagePrefix;
-  const _versions = versions || network?.versions || btc.main.versions;
+    messagePrefix || network?.messagePrefix || btc.mainnet.messagePrefix;
 
   try {
+    const _versions = versions || network?.versions || btc.mainnet.versions;
     let _compressed = compressed;
-    let _privateKeyWif = privateKey;
+    let _privateKey;
+    let _network = network;
 
-    if (typeof privateKey === 'string') {
-      _privateKeyWif = CoinKey.fromWif(privateKey, _versions).privateKey;
-      _compressed =
-        CoinKey.fromWif(privateKey, _versions).compressed === true
-          ? true
-          : _compressed;
+    if (privateKeyWIF) {
+      if (Buffer.isBuffer(privateKeyWIF)) {
+        _privateKey = privateKeyWIF;
+      } else {
+        _privateKey = CoinKey.fromWif(privateKeyWIF, _versions).privateKey;
+        _compressed =
+          CoinKey.fromWif(privateKeyWIF, _versions).compressed === true
+            ? true
+            : _compressed;
+      }
+    } else if (privateKey) {
+      let _pk: Buffer;
+      if (Buffer.isBuffer(privateKey)) {
+        _pk = privateKey;
+      } else {
+        _pk = Buffer.from(privateKey, "hex");
+      }
+      _network = toBitcoinJS(network);
+
+      const ECPair = ECPairFactory(ecc);
+      const keyPair = ECPair.fromPrivateKey(_pk, { network: _network });
+
+      _privateKey = keyPair.privateKey;
     }
 
     const signature = bitcoinMessage.sign(
       message,
-      _privateKeyWif,
+      _privateKey,
       _compressed,
       _messagePrefix,
       ...params
     );
-    return signature.toString('base64');
+    return signature.toString("base64");
   } catch (e) {
     return null;
   }
@@ -73,10 +95,10 @@ export function verify({
   network,
 }: Verify): boolean {
   const _messagePrefix =
-    messagePrefix || network?.messagePrefix || btc.main.messagePrefix;
+    messagePrefix || network?.messagePrefix || btc.mainnet.messagePrefix;
 
   try {
-    const m = Buffer.from(message).toString('ascii');
+    const m = Buffer.from(message).toString("ascii");
     const result = bitcoinMessage.verify(m, address, signature, _messagePrefix);
     return result;
   } catch {

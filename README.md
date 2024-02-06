@@ -12,46 +12,63 @@ npm install @hyperbitjs/message
 
 ## Usage
 
-### Sign a message
+### Sign a message using a private key
 
 ```javascript
-import { sign } from '@hyperbitjs/message';
+import { rvn } from "@hyperbitjs/chains";
+import { sign } from "@hyperbitjs/message";
 
 // Wallet Import Format (WIF) format
-const privateKey = 'L4rK1yDtCWekvXuE6oXD9jCYfFNV2cWRpVuPLBcCU2z8TrisoyY1';
-const message = 'This is an example of a signed message.';
+const privateKey =
+  "963523425d5de8ad42320df7ec9ba0e7f15783914da16e0aff93df20c7b668fb";
+const message = "This is an example of a signed message.";
 
-const signature = sign({ message, privateKey });
-// Expected Result: H9L5yLFjti0QTHhPyFrZCT1V/MMnBtXKmoiKDZ78NDBjERki6ZTQZdSMCtkgoNmp17By9ItJr8o7ChX0XxY91nk=
+const signature = sign({ message, privateKey, network: rvn.mainnet });
+// Expected Result: IIHJVUBhHEnGXun89PyIyoua265DKhACWFxG3LRAJTz+S03huR+vIaWhgJPYDoxAlS/EFN7nqydAfP6n+UBDvdY=
+```
+
+### Sign a message using a private key WIF
+
+```javascript
+import { rvn } from "@hyperbitjs/chains";
+import { sign } from "@hyperbitjs/message";
+
+// Wallet Import Format (WIF) format
+const privateKeyWIF = "T85xhCTbfJnMW4a8qB4ubAFVgshrDdU9jcDmrSgNntTp6YSrub7M";
+const message = "This is an example of a signed message.";
+
+const signature = sign({ message, privateKeyWIF, network: rvn.mainnet });
+// Expected Result: IIHJVUBhHEnGXun89PyIyoua265DKhACWFxG3LRAJTz+S03huR+vIaWhgJPYDoxAlS/EFN7nqydAfP6n+UBDvdY=
 ```
 
 ### Verify a message
 
 ```javascript
-import { verify } from '@hyperbitjs/message';
+import { verify } from "@hyperbitjs/message";
 
-const address = '<public_address_of_private_key_wif>';
-const message = 'This is an example of a signed message.';
-const signature = '<generated_signature_from_sign>';
+const address = "<public_address_of_private_key_wif>";
+const message = "This is an example of a signed message.";
+const signature = "<generated_signature_from_sign>";
 
 const isValid = verify({ address, message, signature });
 ```
 
 ### Full Example
+
 ```javascript
-import { Mnemonic } from '@hyperbitjs/mnemonic';
-import { sign, verify } from '@hyperbitjs/message';
-import { ltc } from '@hyperbitjs/chains';
+import { Mnemonic } from "@hyperbitjs/mnemonic";
+import { sign, verify } from "@hyperbitjs/message";
+import { ltc } from "@hyperbitjs/chains";
 
 const mnemonic = new Mnemonic({ network: ltc.main });
 const addresses = mnemonic.generateAddresses();
 
-const { wif, address } = addresses[0].external;
+const { address, privateKey } = addresses[0].external;
 const network = ltc.main;
-const message = 'This is an example of a signed message.';
+const message = "This is an example of a signed message.";
 
 const signature = sign({
-  privateKey: wif,
+  privateKey,
   message,
   network,
 });
@@ -63,17 +80,9 @@ const isValid = verify({
   network,
 });
 
-console.log('isValid', isValid);
+console.log("isValid", isValid);
 // Expected Output: true
 ```
-
-## Contributing
-
-If you're interested in contributing, please read the [contributing docs](https://github.com/hyperbit-dev/message/blob/master/CONTRIBUTING.md) before submitting a pull request.
-
-## Authors
-
-- [@mikemcshinsky](https://twitter.com/mikemcshinsky) – [Magitek](https://magitek.dev)
 
 ## License
 
