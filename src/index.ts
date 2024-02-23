@@ -1,6 +1,6 @@
 import { btc, toBitcoinJS } from "@hyperbitjs/chains";
 import bitcoinMessage from "bitcoinjs-message";
-import CoinKey from "coinkey";
+import CoinKey from "@hyperbitjs/coinkey";
 import ECPairFactory from "ecpair";
 import * as ecc from "tiny-secp256k1";
 import { Sign, Verify } from "./types";

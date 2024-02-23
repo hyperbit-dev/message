@@ -61,7 +61,7 @@
   "dependencies": {
     "@hyperbitjs/chains": "^1.3.3",
     "bitcoinjs-message": "^2.2.0",
-    "coinkey": "^3.0.0",
+    "@hyperbitjs/coinkey": "^0.0.2",
     "ecpair": "^2.1.0",
     "tiny-secp256k1": "^2.2.3"
   },
