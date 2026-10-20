@@ -4,6 +4,9 @@
   "type": "module",
   "author": "Hyperbit <support@hyperbit.app>",
   "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
   "homepage": "https://github.com/hyperbit-dev/message#readme",
   "repository": {
     "type": "git",
