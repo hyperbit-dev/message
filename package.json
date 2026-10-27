@@ -50,7 +50,7 @@
   "devDependencies": {
     "@types/node": "^20.11.16",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
+    "@typescript-eslint/parser": "^8.72.0",
     "bumpp": "^9.2.1",
     "eslint": "^8.56.0",
     "esno": "^4.0.0",
