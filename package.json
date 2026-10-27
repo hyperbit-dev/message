@@ -62,7 +62,7 @@
     "vitest": "^1.1.3"
   },
   "dependencies": {
-    "@hyperbitjs/chains": "~1.4.0",
+    "@hyperbitjs/chains": "~2.0.2",
     "bitcoinjs-message": "^2.2.0",
     "@hyperbitjs/coinkey": "^0.0.2",
     "ecpair": "^2.1.0",
